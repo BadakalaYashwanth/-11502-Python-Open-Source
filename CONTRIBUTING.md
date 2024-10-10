@@ -191,3 +191,71 @@ We want your work to be readable by others; therefore, we encourage you to note 
   - Happy coding!
 
 Writer [@poyea](https://github.com/poyea), Jun 2019.
+
+
+
+1. Set Up a Virtual Environment
+To avoid any conflicts with globally installed packages, a new virtual environment was created to isolate the project’s dependencies:
+
+  python -m venv myenv
+  source myenv/bin/activate  # For Linux/Mac
+  myenv\Scripts\activate     # For Windows
+
+2. Upgrade pip to the Latest Version
+Ensuring pip was up-to-date helped manage and resolve dependencies more effectively:
+
+  pip install --upgrade pip
+
+3. Install Required Dependencies
+Dependencies were installed using a requirements file, which listed the necessary libraries and their respective versions. For any missing requirements file, the packages were manually installed:
+
+  pip install -r requirements.txt
+
+If no requirements.txt was present, the following libraries were installed individually based on the project’s needs:
+
+  pip install torch pandas transformers
+
+4. Resolve Dependency Conflicts
+Using pip check, I identified conflicts between the installed packages. In case of conflicts, specific versions of libraries were either upgraded or downgraded to ensure compatibility:
+
+  pip check  # Check for dependency issues
+  pip install <package>==<version>  # Downgrade or upgrade package versions as needed 
+
+5. Test Compatibility
+Once all dependencies were installed, the project was tested to confirm that the environment was correctly set up:
+
+  python <your_script>.py
+
+The environment was monitored for any runtime errors. If errors occurred, they were addressed by revisiting specific package versions.
+
+6. Verify Package Compatibility with Python 3.10.7
+   Since some packages like torch might not work well with Python 3.10.7, alternative approaches were explored:
+
+   Downgraded Python Version: Reverting to Python 3.9.x resolved several issues.
+   Checked Package Documentation: Ensured that the installed package versions were compatible with Python 3.10.7.
+
+7. Containerization (Optional)
+    To avoid platform-specific issues, Docker was considered as an optional solution. This would encapsulate the entire environment in a container, providing a consistent setup across different machines.
+
+    Example Dockerfile:
+    
+    FROM python:3.10-slim
+
+    WORKDIR /app
+    
+    COPY requirements.txt requirements.txt
+    
+    RUN pip install --no-cache-dir -r requirements.txt
+    
+    CMD ["python", "main.py"]
+
+      By building and running the container, the development environment remained isolated from the host machine:
+
+      docker build -t project-name .
+      docker run -it project-name
+
+Outcome
+The above steps successfully resolved the dependency conflicts and ensured that the project could run without issues. Key actions involved setting up a clean virtual environment, resolving conflicts using pip check, and ensuring that the correct package versions were installed. The solution is now functional, and the project can be further developed without environmental barriers.
+
+Conclusion
+Through this process, the environment and dependency issues were systematically addressed, ensuring compatibility between Python 3.10.7 and the required packages. For any future changes, it's recommended to regularly update the requirements.txt file, use a virtual environment for dependency management, and consider containerization for a more stable and consistent setup.
